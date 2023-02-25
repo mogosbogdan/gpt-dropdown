@@ -1,28 +1,35 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedOption } from '../redux/optionsSlice';
+import { options } from './options';
+import Card from './Card';
+
+interface RootState {
+    selectedOption: {
+        value: string;
+    };
+}
 
 const Dropdown = () => {
-  const options = useSelector((state: RootState) => state.options);
+    const selectedOption = useSelector((state: RootState) => state.selectedOption.value);
+    const dispatch = useDispatch();
 
-  const [selectedValue, setSelectedValue] = useState(options[0].value);
+    const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        dispatch(setSelectedOption((event.target.value)));
+    };
 
-  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(event.target.value);
-  };
-
-  return (
-    <div>
-      <select value={selectedValue} onChange={handleSelect}>
-        {options.map((option) => (
-          <option key={option.value} value={option.value} style={{ color: option.color }}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <p>You have selected: {options.find((option) => option.value === selectedValue)?.label}</p>
-    </div>
-  );
+    return (
+        <div>
+            <select value={selectedOption} onChange={handleOptionChange}>
+                {options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+            <Card />
+        </div>
+    );
 };
 
 export default Dropdown;

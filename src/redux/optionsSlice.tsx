@@ -1,10 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
-import optionsData from "../components/options";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { options } from '../components/options';
 
-const optionsSlice = createSlice({
-  name: "options",
-  initialState: optionsData,
-  reducers: {},
+interface SelectedOptionState {
+    value: string;
+}
+
+const initialState: SelectedOptionState = {
+    value: options[0].value,
+};
+
+export const selectedOptionSlice = createSlice({
+    name: 'selectedOption',
+    initialState,
+    reducers: {
+        setSelectedOption: (state, action: PayloadAction<string>) => {
+            state.value = action.payload;
+        },
+    },
 });
 
-export default optionsSlice.reducer;
+export const { setSelectedOption } = selectedOptionSlice.actions;
+
+export default selectedOptionSlice.reducer;
