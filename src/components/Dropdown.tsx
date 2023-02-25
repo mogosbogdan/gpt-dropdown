@@ -27,7 +27,6 @@ const Dropdown = () => {
                     </option>
                 ))}
             </select>
-            <Card />
         </div>
     );
 };
